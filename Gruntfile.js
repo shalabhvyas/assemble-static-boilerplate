@@ -92,7 +92,7 @@ module.exports = function(grunt) {
     },
 
     //Watch the CSS and JS files.
-    watch: {
+  watch: {
       styles: {
         //Watch SASS files to compile to CSS files
         files: ['<%= config.assets %>/scss/**/*.scss'],
@@ -108,7 +108,16 @@ module.exports = function(grunt) {
         files: ['<%= config.templates %>/**/*.hbs','<%= config.data %>/*.json'],
         tasks: ['assemble:design']
       }
+    },
+
+  connect: {
+    server: {
+      options: {
+        port: 9001,
+        keepalive : true
+      }
     }
+  }
 
   });
 
@@ -118,10 +127,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask('build', ['clean','sass','jshint', 'assemble:build','uglify','cssmin','copy']);
-  grunt.registerTask('design', ['clean','sass','jshint', 'assemble:design', 'watch']);
+  grunt.registerTask('design', ['clean','sass','jshint', 'assemble:design', 'connect','watch']);
 
 };
